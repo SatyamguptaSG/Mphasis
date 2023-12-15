@@ -1,62 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team ID: 80</title>
-    <style>
-        .step-container {
-            display: none;
-        }
-
-        .active {
-            display: block;
-        }
-    </style>
 </head>
 
 <body>
-    <div id="step1" class="step-container active">
-        <h2>Step 1: Upload Flight Schedule</h2>
-        <form method="POST" enctype="multipart/form-data" action="/">
-            <label for="flightSchedule">Flight Schedule</label>
-            <input type="file" name="flightSchedule" accept=".csv"><br>
-            <button type="button" onclick="nextStep()">Next</button>
-        </form>
-    </div>
+    <form method="POST" enctype="multipart/form-data" action="/">
+        <label for="flightSchedule">Flight Schedule</label>
+        <input type="file" name="flightSchedule" accept=".csv"><br>
+        <label for="PNRP">PNR Passenger</label>
+        <input type="file" name="PNRP" accept=".csv"><br>
+        <label for="PNRB">PNR Booking</label>
+        <input type="file" name="PNRB" accept=".csv"><br>
+        <label for="INV">Inventory</label>
+        <input type="file" name="INV" accept=".csv"><br>
 
-    <div id="step2" class="step-container">
-        <h2>Step 2: Upload PNR Passenger</h2>
-        <form method="POST" enctype="multipart/form-data" action="/">
-            <label for="PNRP">PNR Passenger</label>
-            <input type="file" name="PNRP" accept=".csv"><br>
-            <button type="button" onclick="nextStep()">Next</button>
-        </form>
-    </div>
-
-    <div id="step3" class="step-container">
-        <h2>Step 3: Upload PNR Booking</h2>
-        <form method="POST" enctype="multipart/form-data" action="/">
-            <label for="PNRB">PNR Booking</label>
-            <input type="file" name="PNRB" accept=".csv"><br>
-            <button type="button" onclick="nextStep()">Next</button>
-        </form>
-    </div>
-
-    <div id="step4" class="step-container">
-        <h2>Step 4: Upload Inventory</h2>
-        <form method="POST" enctype="multipart/form-data" action="/">
-            <label for="INV">Inventory</label>
-            <input type="file" name="INV" accept=".csv"><br>
-            <button type="button" onclick="nextStep()">Next</button>
-        </form>
-    </div>
-
-    <div id="step5" class="step-container">
-        <h2>Step 5: Enter Rules</h2>
-        <form method="POST" enctype="multipart/form-data" action="/">
-            <!-- Your rule form goes here -->
+        <hr>
+        <h2>Rule Form</h2>
+        <p>Enter 20 rules with three columns (Rule Name, Weight, Boolean Value):</p>
         {% for i in range(1, 21) %}
         <label for="rule{{ i }}">{{ rule_list[i-1] }}:</label>
         <input type="number" name="rule{{ i }}_weight" placeholder="Weight" value="{{ default_values[i-1] }}">
@@ -67,29 +29,14 @@
         {% endif %}
         <br>
         {% endfor %}
-            <button type="submit">Submit</button>
-        </form>
-    </div>
 
-    <script>
-        let currentStep = 1;
+        <button type="submit">Upload</button>
+    </form>
+    <!-- <p>Upload Flight, PNRP, PNRB, INV in CSV Format</p> -->
 
-        function nextStep() {
-            document.getElementById(`step${currentStep}`).classList.remove('active');
-            currentStep++;
-            document.getElementById(`step${currentStep}`).classList.add('active');
-        }
-    </script>
+    <!-- <form action="/show_data" target="_blank">
+		<input type="submit" value="Show CSV"/>
+	</form> -->
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
