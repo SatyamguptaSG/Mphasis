@@ -34,6 +34,7 @@ def uploadFile():
     global current_step
     global flights_cancelled
     global Max_layover_time, Min_layover_time, Max_departure_delay, downline
+    global DwaveToken
     if request.method == 'POST':
         # current_step = int(request.form.get('current_step', 1))
         # current_step = 1
@@ -75,7 +76,7 @@ def uploadFile():
             return render_template('index_new_RuleEngine.html', rule_list=List1, default_values=default_values, default_checked=default_checked, current_step=current_step)
 
 
-        if current_step == 6:
+        elif current_step == 6:
             current_step += 1
             rules = [['Condition', 'Score', 'FK']]
             for i in range(1, 21):
@@ -91,14 +92,20 @@ def uploadFile():
             
         elif current_step == 7:
             current_step += 1
-            downline = request.form['Downline']
-            Max_departure_delay = request.form['Max-Departure-Delay']
-            Max_layover_time = request.form['Max-Layover-Time']
-            Min_layover_time = request.form['Min-Layover-Time']
+            downline = int(request.form['Downline'])
+            Max_departure_delay = int(request.form['Max-Departure-Delay'])*60*60
+            Max_layover_time = int(request.form['Max-Layover-Time'])*60*60
+            Min_layover_time = int(request.form['Min-Layover-Time'])*60*60
+
+            return render_template('index_new_token.html', rule_list=List1, default_values=default_values, default_checked=default_checked, current_step=current_step)
+
+        elif current_step == 8:
+            current_step += 1
+            DwaveToken = request.form['Downline']
 
             temp_files()
 
-            main1(flights_cancelled)
+            main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layover_time, Max_layover_time)
 
             main2(flights_cancelled)
 
