@@ -68,8 +68,13 @@ class Route:
 number_of_routes = 0
 
 class Graph:
-    def __init__(self, flight_options_list):
+    def __init__(self, flight_options_list, downline, Max_departure_delay, Min_layover_time, Max_layover_time):
         self.graph = {}
+        self.downline = downline
+        self.Max_departure_delay = Max_departure_delay
+        self.Min_layover_time = Min_layover_time
+        self.Max_layover_time = Max_layover_time
+
         for flight_option in flight_options_list:
             self.add_edge(flight_option.dep_loc, flight_option.arr_loc, flight_option.fid, flight_option.fclass, flight_option.capacity, flight_option.dep_time, flight_option.arr_time)
 
@@ -82,7 +87,7 @@ class Graph:
         if source == destination:
             return [path]
 
-        if len(path) >= 2:
+        if len(path) >= int(self.downline):
             return []
 
         paths = []
@@ -92,8 +97,8 @@ class Graph:
         for edge in self.graph[source]:
             node = edge[0]
 
-            if (not is_first_flight and (edge[4] >= arr_time + 3600 and edge[4] <= arr_time + 18000)) \
-                or (is_first_flight and edge[4] <= arr_time + (48 * 60 * 60) and edge[4] >= arr_time):
+            if (not is_first_flight and (edge[4] >= arr_time + int(self.Min_layover_time) and edge[4] <= arr_time + int(self.Max_layover_time))) \
+                or (is_first_flight and edge[4] <= arr_time + int(self.Max_departure_delay) and edge[4] >= arr_time):
                 new_path = path.copy()
                 new_path.append(FlightOption(edge[1], source, node, edge[4], edge[5], edge[2], edge[3]))
                 paths += self.find_all_paths_helper(node, edge[5], destination, new_path, 0)
@@ -111,8 +116,8 @@ class Graph:
         
         return routes
 
-def generateRoutes(F, FOC):
-    G = Graph(F)
+def generateRoutes(F, FOC, downline, Max_departure_delay, Min_layover_time, Max_layover_time):
+    G = Graph(F, downline, Max_departure_delay, Min_layover_time, Max_layover_time)
     routes = []
 
     source = FOC.dep_loc
@@ -278,7 +283,7 @@ def overbook_trim(plist, fid, capacity):
         overbooked_ans[tmp_list[i][1].pid] = fid
     return ret
 
-def main1(flights_cancelled):
+def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layover_time, Max_layover_time):
     # flights_cancelled = ['ZZ20240505AMDHYD2223', 'ZZ20240623GAUPNQ3440']
     flights_ob = [] # overbooked flights
 
@@ -373,7 +378,7 @@ def main1(flights_cancelled):
     print(len(flight_options))
     route_map = dict()
     for fnum in flights_cancelled:
-        route_map[fnum] = generateRoutes(flight_options, flight_options_map[flight_fid_map[fnum][0]])
+        route_map[fnum] = generateRoutes(flight_options, flight_options_map[flight_fid_map[fnum][0]], downline, Max_departure_delay, Min_layover_time, Max_layover_time)
         for ro in route_map[fnum]:
             ro.write_csv_debug("staticFiles\\uploads\\routes.csv")
         print("fnum " + str(fnum) + " routes count " + str(len(route_map[fnum])))
@@ -424,7 +429,7 @@ def main1(flights_cancelled):
         cqm.add_constraint(val <= max(flight_options_map[key].capacity, 0))
 
     print(fcnt)
-    sampler = LeapHybridCQMSampler(token="DEV-700efbe96b348aa43b7985ce53c40a95ffaaf142")
+    sampler = LeapHybridCQMSampler(token=DwaveToken)
 
     sampleset = sampler.sample_cqm(cqm).aggregate()
     sampleset = sampleset.filter(lambda x: cqm.check_feasible(x.sample))
