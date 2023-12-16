@@ -1,30 +1,21 @@
 import csv
-
 def main2(flights_cancelled):
     # flights_cancelled = ['ZZ20240505AMDHYD2223', 'ZZ20240623GAUPNQ3440']  
-
     # with open("flights_cancelled.csv", 'r') as f:
     #     csvreader = csv.reader(f)
     #     fields = next(csvreader)
-
     #     for row in csvreader:
     #         flights_cancelled.append(row[0])
-
     pnr_data = []
-
     with open(r'staticFiles\uploads\pnr_score.csv', 'r') as f:
         csvreader = csv.reader(f)
         # fields = next(csvreader)
-
         for row in csvreader:
             pnr_data.append(row)
-
     flights = []
-
     with open(r'staticFiles\uploads\flights.csv', 'r') as f:
         csvreader = csv.reader(f)
         # fields = next(csvreader)
-
         for row in csvreader:
             flights.append(row)
 
