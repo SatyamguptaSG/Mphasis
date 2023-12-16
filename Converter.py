@@ -29,52 +29,53 @@ def main2(flights_cancelled):
             flights.append(row)
 
     for flight in flights_cancelled:
-        default = "./output/" + str(flight) + "_default.csv"
-        final_data = []
-        with open(default, 'r') as f:
-            csvreader = csv.reader(f)
-            # fields = next(csvreader)
-            for row in csvreader:
-                # print(len(pnr_data))
-                idx = int(row[0])
-                len1 = int(row[1])
-                uids = row[2:]
+        for sol in range(10):
+            default = "./output/" + str(sol) + "_" +  str(flight) + "_default.csv"
+            final_data = []
+            with open(default, 'r') as f:
+                csvreader = csv.reader(f)
+                # fields = next(csvreader)
+                for row in csvreader:
+                    # print(len(pnr_data))
+                    idx = int(row[0])
+                    len1 = int(row[1])
+                    uids = row[2:]
 
-                temp = [pnr_data[idx][1], len1]
+                    temp = [pnr_data[idx][1], len1]
 
-                for uid in uids:
-                    temp.append([flights[int(uid)][1], flights[int(uid)][4]])
+                    for uid in uids:
+                        temp.append([flights[int(uid)][1], flights[int(uid)][4]])
 
-                final_data.append(temp)
+                    final_data.append(temp)
 
-        with open(default, 'w', newline='') as f:
-            csvwriter = csv.writer(f)
+            with open(default, 'w', newline='') as f:
+                csvwriter = csv.writer(f)
 
-            csvwriter.writerows(final_data)
-
-
-        exception = "./output/" + str(flight) + "_exception.csv"
-        final_data = []
-        with open(exception, 'r') as f:
-            csvreader = csv.reader(f)
-            # fields = next(csvreader)
-            for row in csvreader:
-                idx = int(row[0])
-                len1 = int(row[1])
-                uids = row[2:]
-
-                temp = [pnr_data[idx][1], len1]
-
-                for uid in uids:
-                    temp.append([flights[int(uid)][1], flights[int(uid)][4]])
-
-                final_data.append(temp)
+                csvwriter.writerows(final_data)
 
 
-        with open(exception, 'w', newline='') as f:
-            csvwriter = csv.writer(f)
+            exception = "./output/" + str(sol) + "_" + str(flight) + "_exception.csv"
+            final_data = []
+            with open(exception, 'r') as f:
+                csvreader = csv.reader(f)
+                # fields = next(csvreader)
+                for row in csvreader:
+                    idx = int(row[0])
+                    len1 = int(row[1])
+                    uids = row[2:]
 
-            csvwriter.writerows(final_data)
+                    temp = [pnr_data[idx][1], len1]
+
+                    for uid in uids:
+                        temp.append([flights[int(uid)][1], flights[int(uid)][4]])
+
+                    final_data.append(temp)
+
+
+            with open(exception, 'w', newline='') as f:
+                csvwriter = csv.writer(f)
+
+                csvwriter.writerows(final_data)
 
 # if __name__ == "__main__":
 #     main2()
