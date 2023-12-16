@@ -61,7 +61,7 @@ class Route:
     def write_csv_debug(self, filename):
         if not to_write_to_csv:
             return
-        with open(filename, "a") as f:
+        with open(filename, "a", newline='') as f:
             csvwriter = csv.writer(f, delimiter=' ')
             csvwriter.writerow([len(self.flight_options)] + [fo.fid for fo in self.flight_options])
 
@@ -93,7 +93,7 @@ class Graph:
             node = edge[0]
 
             if (not is_first_flight and (edge[4] >= arr_time + 3600 and edge[4] <= arr_time + 18000)) \
-                or (is_first_flight and edge[4] <= arr_time + (48 * 60 * 65) and edge[4] >= arr_time):
+                or (is_first_flight and edge[4] <= arr_time + (48 * 60 * 60) and edge[4] >= arr_time):
                 new_path = path.copy()
                 new_path.append(FlightOption(edge[1], source, node, edge[4], edge[5], edge[2], edge[3]))
                 paths += self.find_all_paths_helper(node, edge[5], destination, new_path, 0)
@@ -244,17 +244,17 @@ class pnr_flight_matrix:
                 else:
                     default.append(to_append)
 
-        with open("output/" + str(fnum) + "_default.csv", "w+") as fp:
+        with open("output/" + str(fnum) + "_default.csv", "w+", newline='') as fp:
             writer = csv.writer(fp, delimiter=",")
             writer.writerows(default)
-        with open("output/" + str(fnum) + "_exception.csv", "w+") as fp:
+        with open("output/" + str(fnum) + "_exception.csv", "w+", newline='') as fp:
             writer = csv.writer(fp, delimiter=",")
             writer.writerows(exception)
 
     def write_csv_debug(self, filename):
         if not to_write_to_csv:
             return
-        with open(filename, "a") as f:
+        with open(filename, "a", newline='') as f:
             csvwriter = csv.writer(f)
             for i in range(self.pnr_sz):
                 for j in range(self.rl_sz):
@@ -278,8 +278,8 @@ def overbook_trim(plist, fid, capacity):
         overbooked_ans[tmp_list[i][1].pid] = fid
     return ret
 
-def main1():
-    flights_cancelled = ['ZZ20240505AMDHYD2223', 'ZZ20240623GAUPNQ3440']
+def main1(flights_cancelled):
+    # flights_cancelled = ['ZZ20240505AMDHYD2223', 'ZZ20240623GAUPNQ3440']
     flights_ob = [] # overbooked flights
 
     pnrs = pd.read_csv("staticFiles\\uploads\\pnr_score.csv")
