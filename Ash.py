@@ -14,6 +14,9 @@ import csv
 to_write_to_csv = 1
 
 default_constant = 1e8
+multi_leg_constant = 10
+infty_constant = 1e11
+class_constant = 5
 mean_delay = 0
 total_pnrs_assigned = 0
 
@@ -42,8 +45,11 @@ class PNR:
 
     def get_m_value(self, route):
         flight_option = route.flight_options[-1]
+        global class_constant
+        global multi_leg_constant
         ret = self.score * self.cnt * (flight_option.arr_time - self.fo.arr_time) * ( \
-                1 + (flight_option.fclass / (5 * self.fo.fclass)))
+                1 + (flight_option.fclass / (class_constant * self.fo.fclass))) * ( \
+                1 + (len(route.flight_options) / multi_leg_constant))
         return ret
 
 class Route:
@@ -386,7 +392,8 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
     mlist = []
     #infty = 5000 * (48 * 60 * 60) * total_pnrs 
     #infty = 1e14
-    infty = 1e11
+    global infty_constant
+    infty = infty_constant
 
     tmp_cnt = 0
     pfid_fnum_map = dict()
