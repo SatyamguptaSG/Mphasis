@@ -1,0 +1,9 @@
+dwave-ocean-sdk
+csv
+pandas
+ortools
+flask
+numpy
+matplotlib
+calendar
+datetime
