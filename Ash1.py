@@ -340,7 +340,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
 
     for key, val in seats_assigned_flight.items():
         if key in flights_cancelled: continue
-        if val > max_capacity[key]:
+        if val > max_capacity[key] and key not in flights_cancelled:
             flights_cancelled.append(key)
             flights_ob.append(key)
 
@@ -377,7 +377,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
         fo = FlightOption(fid, row['DEP'], row['ARR'], row['DEP_TIME'], row['ARR_TIME'], cabin_tp, row['CAPACITY'] - seats_assigned[fid])
 
         flight_options_map[fid] = fo
-        if fid not in fo_cnc_idx:
+        if fid not in fo_cnc_idx or fid in flights_ob:
             flight_options.append(fo)
 
         if fid not in pnr_map:
