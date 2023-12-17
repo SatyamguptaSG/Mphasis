@@ -353,6 +353,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
 
     # indices of impacted flight options
     fo_cnc_idx = []
+    fo_ob_idx = []
     flights_cnc_idx = []
     flight_fid_map = dict() 
     for index, row in flights.iterrows():
@@ -360,6 +361,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
         fnum = row['KEY']
         if fnum not in flights_cancelled: continue
         fo_cnc_idx.append(fid)
+        if fnum in flights_ob: fo_ob_idx.append(fid)
         flights_cnc_idx.append(fnum)
 
         if fnum not in flight_fid_map: flight_fid_map[fnum] = []
@@ -377,7 +379,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
         fo = FlightOption(fid, row['DEP'], row['ARR'], row['DEP_TIME'], row['ARR_TIME'], cabin_tp, row['CAPACITY'] - seats_assigned[fid])
 
         flight_options_map[fid] = fo
-        if fid not in fo_cnc_idx or fid in flights_ob:
+        if fid not in fo_cnc_idx or fid in fo_ob_idx:
             flight_options.append(fo)
 
         if fid not in pnr_map:
