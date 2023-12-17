@@ -7,13 +7,13 @@ def main2(flights_cancelled):
     #     for row in csvreader:
     #         flights_cancelled.append(row[0])
     pnr_data = []
-    with open(r'staticFiles\uploads\pnr_score.csv', 'r') as f:
+    with open(r'staticFiles/uploads/pnr_score.csv', 'r') as f:
         csvreader = csv.reader(f)
         # fields = next(csvreader)
         for row in csvreader:
             pnr_data.append(row)
     flights = []
-    with open(r'staticFiles\uploads\flights.csv', 'r') as f:
+    with open(r'staticFiles/uploads/flights.csv', 'r') as f:
         csvreader = csv.reader(f)
         # fields = next(csvreader)
         for row in csvreader:

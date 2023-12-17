@@ -88,7 +88,7 @@ def uploadFile():
                 rule_bool = request.form.get(f"rule{i}_bool") is not None
                 rules.append([List1[i-1], rule_weight, rule_bool])
 
-            with open("staticFiles\\uploads\\RULES.csv", 'w', newline='') as f:
+            with open("staticFiles/uploads/RULES.csv", 'w', newline='') as f:
                 writer = csv.writer(f)
                 writer.writerows(rules)
 
@@ -130,8 +130,8 @@ def uploadFile():
             zf = zipfile.ZipFile("Output.zip", mode="w")
             for flight in flights_cancelled:
                 for q in range(10):
-                    zf.write("output\\" +str(q)+ "_" + flight + "_exception.csv")
-                    zf.write("output\\" + str(q) + "_" + flight + "_default.csv")
+                    zf.write("output/" +str(q)+ "_" + flight + "_exception.csv")
+                    zf.write("output/" + str(q) + "_" + flight + "_default.csv")
             # return send_from_directory('output',f'{}')
             zf.close()
             return send_from_directory('', 'Output.zip', as_attachment=True)

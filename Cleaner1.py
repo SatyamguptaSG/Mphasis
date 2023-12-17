@@ -5,7 +5,7 @@ import datetime
 def temp_files():
     schedule = []
 
-    with open(r'staticFiles\uploads\SCH.csv', 'r') as f:
+    with open(r'staticFiles/uploads/SCH.csv', 'r') as f:
         reader = csv.reader(f)
         header = next(reader)
 
@@ -29,7 +29,7 @@ def temp_files():
             
     inventory = []
 
-    with open(r'staticFiles\uploads\INV.csv', 'r') as f:
+    with open(r'staticFiles/uploads/INV.csv', 'r') as f:
         reader = csv.reader(f)
         header = next(reader)
 
@@ -71,14 +71,14 @@ def temp_files():
         d_key[(dep_key, 'EconomyClass')] = idx
         idx += 1
 
-    with open(r'staticFiles\uploads\flights.csv', 'w', newline='') as f:
+    with open(r'staticFiles/uploads/flights.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(['UID', 'KEY', 'DEP', 'ARR', 'CLASS', 'CAPACITY', 'DEP_TIME', 'ARR_TIME'])
         writer.writerows(flights)
 
     pnr_data = []
 
-    with open(r'staticFiles\uploads\PNRB.csv', 'r') as f:
+    with open(r'staticFiles/uploads/PNRB.csv', 'r') as f:
         reader = csv.reader(f)
         header = next(reader)
 
@@ -97,7 +97,7 @@ def temp_files():
             
     passenger_data = []
 
-    with open(r'staticFiles\uploads\PNRP.csv', 'r') as f:
+    with open(r'staticFiles/uploads/PNRP.csv', 'r') as f:
         reader = csv.reader(f)
         header = next(reader)
         for row in reader:
@@ -111,7 +111,7 @@ def temp_files():
             
     rules = dict()
 
-    with open(r'staticFiles\uploads\RULES.csv', 'r') as f:
+    with open(r'staticFiles/uploads/RULES.csv', 'r') as f:
         reader = csv.reader(f)
         header = next(reader)
 
@@ -186,7 +186,7 @@ def temp_files():
         final_data.append([idx, pnr_number, dep_key, pax_cnt, score, fc, d_key[(dep_key, flightclass)]])
         idx += 1
 
-    with open(r'staticFiles\uploads\pnr_score.csv', 'w', newline='') as f:
+    with open(r'staticFiles/uploads/pnr_score.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(['IDX','PNR', 'KEY', 'CNT', 'SCORE', 'FK', 'UID'])
         writer.writerows(final_data)

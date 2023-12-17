@@ -293,7 +293,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
     # flights_cancelled = ['ZZ20240505AMDHYD2223', 'ZZ20240623GAUPNQ3440']
     flights_ob = [] # overbooked flights
 
-    pnrs = pd.read_csv("staticFiles\\uploads\\pnr_score.csv")
+    pnrs = pd.read_csv("staticFiles/uploads/pnr_score.csv")
     seats_assigned = dict()
     pnr_map_tmp = dict()
     total_pnrs = 0
@@ -311,7 +311,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
             pnr_map_tmp[key] = []
         pnr_map_tmp[key].append((row['IDX'], row['SCORE'], cnt))
 
-    flights = pd.read_csv("staticFiles\\uploads\\flights.csv")
+    flights = pd.read_csv("staticFiles/uploads/flights.csv")
     flight_options = []                 # list of all non-impacted flight options
     flight_options_map = dict()         # map from fid to fo object 
     flight_constraints = dict()
@@ -386,7 +386,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
     for fnum in flights_cancelled:
         route_map[fnum] = generateRoutes(flight_options, flight_options_map[flight_fid_map[fnum][0]], downline, Max_departure_delay, Min_layover_time, Max_layover_time)
         for ro in route_map[fnum]:
-            ro.write_csv_debug("staticFiles\\uploads\\routes.csv")
+            ro.write_csv_debug("staticFiles/uploads/routes.csv")
         print("fnum " + str(fnum) + " routes count " + str(len(route_map[fnum])))
 
     mlist = []
@@ -464,7 +464,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
                 each.generate_DS_YS(sample)
                 each.print()
                 each.print_M()
-                each.write_csv_debug("staticFiles\\uploads\\pnr_out.csv")
+                each.write_csv_debug("staticFiles/uploads/pnr_out.csv")
                 each.write_csv(str(index) + "_" + pfid_fnum_map[each.pfid])
 
             global mean_delay
