@@ -46,8 +46,14 @@ class PNR:
         flight_option = route.flight_options[-1]
         # global class_constant
         # global multi_leg_constant
+
+        cavg = 0
+        for each in route.flight_options:
+            cavg += each.fclass
+        cavg /= len(route.flight_options)
+
         ret = self.score * self.cnt * (flight_option.arr_time - self.fo.arr_time) * ( \
-                1 + (flight_option.fclass / (self.class_constant * self.fo.fclass))) * ( \
+                1 + (cavg / (self.class_constant * self.fo.fclass))) * ( \
                 1 + (len(route.flight_options) / self.multi_leg_constant))
         return ret
 
@@ -402,6 +408,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
         for fid in flight_fid_map[fnum]:
             plist += pnr_map[fid]
 
+        """
         if fnum in flights_ob:
             for i in range(4):
                 if len(plist) == 0: break
@@ -409,6 +416,7 @@ def main1(flights_cancelled, DwaveToken, downline, Max_departure_delay, Min_layo
                 plist = overbook_trim(plist, fid, flight_options_map[fid].capacity + seats_assigned[fid])
 
         if len(plist) == 0: continue
+        """
         mlist.append(pnr_flight_matrix(tmp_cnt, plist, route_map[fnum], infty, default_constant))
         pfid_fnum_map[tmp_cnt] = fnum
 
