@@ -1,4 +1,4 @@
-# from distutils.log import debug
+from distutils.log import debug
 from fileinput import filename
 import pandas as pd
 from flask import *
@@ -39,6 +39,27 @@ def uploadFile():
     global Max_layover_time, Min_layover_time, Max_departure_delay, downline
     global default_constant, multi_leg_constant, infty_constant, class_constant
     global DwaveToken
+    if request.method=='GET':
+        if current_step==1:
+            current_step=1
+        elif current_step==2:
+            current_step=1
+        elif current_step==3:
+            current_step=2
+        elif current_step==4:
+            current_step=3
+        elif current_step==5:
+            current_step=4
+        elif current_step==6:
+            current_step=5
+        elif current_step==7:
+            current_step=6
+        elif current_step==8:
+            current_step=7
+        elif current_step==9:
+            current_step=8 
+        elif current_step==10:
+            current_step=9
     if request.method == 'POST':
         # current_step = int(request.form.get('current_step', 1))
         # current_step = 1
@@ -124,7 +145,7 @@ def uploadFile():
 
             # return send_from_directory('output',f'{}')
             return render_template('index_wtver.html', current_step = current_step)
-        
+
         elif current_step == 10:
             # file_path = os.path.join9
             zf = zipfile.ZipFile("Output.zip", mode="w")
@@ -140,7 +161,7 @@ def uploadFile():
         # If none of the above conditions match, show the current step
         return render_template('index_new.html', rule_list=List1, default_values=default_values, default_checked=default_checked, current_step=current_step)
 
-    current_step = 1
+    # current_step = 1
     return render_template('index_new.html', rule_list=List1, default_values=default_values, default_checked=default_checked, current_step=1, file='PNR Passenger Data')
 
 
