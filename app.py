@@ -140,6 +140,7 @@ def uploadFile():
         # If none of the above conditions match, show the current step
         return render_template('index_new.html', rule_list=List1, default_values=default_values, default_checked=default_checked, current_step=current_step)
 
+    current_step = 1
     return render_template('index_new.html', rule_list=List1, default_values=default_values, default_checked=default_checked, current_step=1, file='PNR Passenger Data')
 
 
